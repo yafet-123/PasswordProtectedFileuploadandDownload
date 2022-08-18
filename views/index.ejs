@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Document</title>
+	<style >
+		*{	
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		body{
+			width: 100%;
+			height: 100%;
+			background:#ffe6e6;
+		}
+
+		.all{
+			position: absolute;
+			border: 1px solid #333;
+			border-radius: 10px;
+			width: 30%;
+			height: 40%;
+			margin:20% 35%;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			padding: 10px;
+			background:#ffcccc;
+		}
+		label{
+			margin-top:10px ;
+			text-align: center;
+			text-transform: uppercase;
+			font-size: 15px;
+			font-weight: bold;
+		}
+		button{
+			width: 100%;
+  			background-color: #4CAF50;
+  			color: white;
+  			padding: 14px 20px;
+  			margin: 8px 0;
+  			border: none;
+  			border-radius: 4px;
+  			cursor: pointer;
+		}
+		input{
+			width: 100%;
+			padding: 12px 20px;
+  			margin: 8px 0;
+  			display: inline-block;
+  			border: 1px solid #ccc;
+  			border-radius: 4px;
+  			box-sizing: border-box;
+		}
+		.accept{
+			display: flex;
+			flex-direction: column;
+			margin-bottom:10px ;
+		}
+		p{
+			margin:5px 0;
+			text-align: center;
+			text-transform: uppercase;
+			font-size: 15px;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+	<!-- action where to send in this case it goes to /upload in the server and post method 
+		the enctype is used to send file to the server because most of the time form in html send
+		text and the multipart is because we send file is large and it break down in to pieces
+	-->
+
+	<!-- if there is no file don not do anything but if there is file render the fle link and
+		and the text your file upload
+	 -->
+	<div class="all">
+		<% if(locals.fileLink != null){%>
+			<div class="accept">
+				<p>Your file upload</p>
+				<a href="<%= locals.fileLink %>"><%= locals.fileLink %></a>
+			</div>
+		<% } %>
+		<form action="/upload" method="POST" enctype="multipart/form-data">
+			<div>
+				<label for="title">File:</label>
+				<input type="file" id="title" name="file" required>
+			</div>
+			<div>
+				<label for="password">Password:</label>
+				<input type="password" id="password" name="password">
+			</div>
+			<button type="submit">Share</button>
+		</form>
+	</div>
+</body>
+</html>

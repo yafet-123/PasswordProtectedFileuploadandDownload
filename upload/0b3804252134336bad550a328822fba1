@@ -1,0 +1,64 @@
+import { useState} from 'react'
+import Header from '../components/Header'
+import Stepper from '../components/Stepper'
+import StepperControl from '../components/StepperControl'
+import Patient_information from '../components/steps/patient_information'
+import Emergency_contact_information from '../components/steps/emergency_contact_information'
+import {stepperContext} from './context/stepperContext'
+function AddPatient(){
+	const steps = [
+  		"Patient",
+  		"Emergency Contact"  	]
+
+  	const [currentStep,setcurrentstep] = useState(1)
+  	const [userData,setuserData] = useState("")
+  	const [finalData,setfinalData] = useState([]);
+
+  	const displaySteps = (step)=>{
+  		switch (step){
+  			case 1:
+  				return <Patient_information />
+  			case 2:
+  				return <Emergency_contact_information />
+  			default:
+  		}
+  	}
+
+  	const handleClick = (direaction)=>{
+   		let newStep = currentStep
+  		direaction === "next" ? newStep++ : newStep--
+  		
+  		newStep >0 && newStep <= steps.length && setcurrentstep(newStep)
+  	}
+	return(
+		<div className="flex w-screen h-screen bg-indigo-50">
+			<Header/>
+			<div className="h-screen w-[calc(100vw-100px)] lg:w-10/12 p-5">
+				<div className="container horizontal mb-5 px-5">
+					<Stepper 
+						steps={steps}
+						currentStep={currentStep}
+					/>
+				</div>
+				<div className="">
+					<stepperContext.Provider value={{
+						userData,
+						setuserData,
+						finalData,
+						setfinalData
+					}}>
+						{displaySteps(currentStep)}
+					</stepperContext.Provider>
+				</div>
+
+				<StepperControl 
+					handleClick={handleClick}
+					currentStep={currentStep}
+					steps={steps}
+				/>
+			</div>
+		</div>
+	)
+}
+
+export default AddPatient
